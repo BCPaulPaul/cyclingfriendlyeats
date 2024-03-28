@@ -86,7 +86,7 @@
                 featuredLocationDiv.style.border = '1px solid #ddd';
                 featuredLocationDiv.style.backgroundColor = '#f9f9f9';
                 
-                var content = `<h4>Featured Location: ${location.name}</h4><p>${location.description}</p>`;
+                var content = `<h4>Featured Location: ${location.name}</h4>, ${location.description}`;
                 featuredLocationDiv.innerHTML = content;
                 
                 document.body.insertBefore(featuredLocationDiv, document.getElementById('map'));
