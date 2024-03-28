@@ -86,14 +86,14 @@
                 featuredLocationDiv.style.border = '1px solid #ddd';
                 featuredLocationDiv.style.backgroundColor = '#f9f9f9';
                 
-                var content = `<h4>Featured Location: ${location.name}</h4>, ${location.description}, ${location.address}`;
+                var content = `<h4>Featured Location: ${location.name}, ${location.description}, ${location.address}</h4>`;
                 featuredLocationDiv.innerHTML = content;
                 
                 document.body.insertBefore(featuredLocationDiv, document.getElementById('map'));
             }
 
-// Call the function to display the featured location's details
-displayFeaturedLocation(featuredLocation);
+            // Call the function to display the featured location's details
+            displayFeaturedLocation(featuredLocation);
 
 
             // Loop through locations and add markers
