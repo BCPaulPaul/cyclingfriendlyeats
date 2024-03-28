@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Custom Pins on Google Map</title>
+    <style>
+        /* Set the size of the map */
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h3>My Google Map</h3>
+    <div id="map"></div>
+
+    <script>
+        // Function to initialize the map
+        function initMap() {
+            // Map options
+            var options = {
+                zoom: 5,
+                center: {lat: -34.397, lng: 150.644} // Default center of the map
+            };
+
+            // New map
+            var map = new google.maps.Map(document.getElementById('map'), options);
+
+            // Array of location objects
+            var locations = [
+                {
+                    name: "Location 1",
+                    coords: {lat: -34.397, lng: 150.644},
+                    description: "Description for Location 1"
+                },
+                {
+                    name: "Location 2",
+                    coords: {lat: -35.397, lng: 151.644},
+                    description: "Description for Location 2"
+                }
+                // Add more locations here
+            ];
+
+            // Loop through locations and add markers
+            locations.forEach(function(location) {
+                addMarker(location);
+            });
+
+            // Function to add marker for a location
+            function addMarker(location) {
+                var marker = new google.maps.Marker({
+                    position: location.coords,
+                    map: map,
+                    title: location.name
+                });
+
+                // Check for a description and add info window
+                if (location.description) {
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: `<h4>${location.name}</h4><p>${location.description}</p>`
+                    });
+
+                    marker.addListener('click', function() {
+                        infoWindow.open(map, marker);
+                    });
+                }
+            }
+        }
+    </script>
+
+    <!-- Replace 'YOUR_API_KEY' with your actual Google Maps API key -->
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUlY1OEWoOkQTEFxOOV9uBZRrWCS9VB5M&callback=initMap">
+    </script>
+</body>
+</html>
