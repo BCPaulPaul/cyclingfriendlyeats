@@ -6,7 +6,7 @@
         /* Set the size of the map */
         #map {
             height: 400px;
-            width: 100%;
+            width: 600px;
         }
     </style>
 </head>
@@ -19,39 +19,118 @@
         function initMap() {
             // Map options
             var options = {
-                zoom: 5,
-                center: {lat: -34.397, lng: 150.644} // Default center of the map
+                zoom: 12,
+                center: {lat: 49.2608724, lng: -123.113952} // Default center of the map
             };
 
             // New map
             var map = new google.maps.Map(document.getElementById('map'), options);
 
-            // Array of location objects
-            var locations = [
-                {
-                    name: "Location 1",
-                    coords: {lat: -34.397, lng: 150.644},
-                    description: "Description for Location 1"
-                },
-                {
-                    name: "Location 2",
-                    coords: {lat: -35.397, lng: 151.644},
-                    description: "Description for Location 2"
-                }
-                // Add more locations here
-            ];
+            var data = [
+                    // Headers (for simplicity, we're not including nested objects like 'coords' and 'additionalInfo')
+                    ["name", "lat", "lng", "description", "address", "phone", "website", "patio", "group", "fullmeal", "rack"],
+                    // Data rows
+                    ["Dageraad Brewing", 49.256172, -122.922122, "Small-batch artisan brewery", "3191 Thunderbird Crescent #114, Burnaby", "604-420-2050", "dageraadbrewing.com", "?", "?", "?", "Y"],
+                    ["Sanctuary Cafe", 49.118706, -123.158662, "Popular with cyclists", "13020 No 2 Rd #160, Richmond", "604-340-6888", "www.sanctuarycafeyvr.com", "Y", "Large", "Y", "Y"],
+                    ["inBtwn Cafe", 49.27512252715708, -123.13368729854297, "Home-made sweet treats and savoury bites.", "1625 Hornby St, Vancouver", "604-568-0971", "www.inbtwncafe.ca", "N", "Tiny", "N", "Meters"]
+                ];
+
+            function convertArrayToObjects(data) {
+                // Extract headers
+                const headers = data[0];
+                // Transform each row into an object
+                const objects = data.slice(1).map(row => {
+                        const obj = {};
+                        row.forEach((value, index) => {
+                            // For simplicity in this example, we directly assign values.
+                            // In a more complex scenario, you could check the header name and format accordingly.
+                            obj[headers[index]] = value;
+                        });
+                        // Example of restructuring into a more complex object similar to the provided example
+                        return {
+                            name: obj.name,
+                            coords: { lat: obj.lat, lng: obj.lng },
+                            description: obj.description,
+                            additionalInfo: {
+                                address: obj.address,
+                                phone: obj.phone,
+                                website: obj.website,
+                                patio: obj.patio,
+                                group: obj.group,
+                                fullmeal: obj.fullmeal,
+                                rack: obj.rack
+                        }
+                    };
+                });
+                return objects;
+            }
+
+            var locations = convertArrayToObjects(data);
+            //console.log(locations);
 
             // Loop through locations and add markers
             locations.forEach(function(location) {
+                console.log(location);
                 addMarker(location);
             });
 
             // Function to add marker for a location
+
             function addMarker(location) {
                 var marker = new google.maps.Marker({
                     position: location.coords,
                     map: map,
-                    title: location.name
+                    title: location.name,
+                    // Specify the custom icon here
+                    icon: {
+                        url: 'cycle_food.png', // Path to custom icon image
+                        // Optionally, you can specify the icon size and origin
+                        scaledSize: new google.maps.Size(20, 20), // Scaled size (width, height)
+                        origin: new google.maps.Point(0, 0), // Origin (x, y)
+                        anchor: new google.maps.Point(10, 10) // Anchor (x, y)
+                    }
+                });
+
+                if (location.description || location.additionalInfo) {
+                    let infoContent = `<p><strong>${location.name}</strong><br>`;
+                    
+                    if (location.description) {
+                        infoContent += `${location.description}<br>`;
+                    }
+                    
+                    if (location.additionalInfo) {
+                        const { address, phone, website, patio, group, fullmeal, rack } = location.additionalInfo;
+                        infoContent += `Address: ${address}<br>`;
+                        infoContent += `Phone: <a href="tel:${phone}">${phone}</a><br>`;
+                        infoContent += `Website: <a href="${website}" target="_blank">${website}</a><br>`;
+                        infoContent += `Patio:${patio} Group Size:${group} Full Meal:${fullmeal} Rack:${rack}`;
+                        infoContent += `</p>`;
+                    }
+
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: infoContent
+                    });
+
+                    marker.addListener('click', function() {
+                        infoWindow.open(map, marker);
+                    });
+                }
+            }
+
+
+            function addMarker0(location) {
+                var marker = new google.maps.Marker({
+                    position: location.coords,
+                    map: map,
+                    title: location.name,
+                    // Specify the custom icon here
+                    icon: {
+                        url: 'cycle_food.png', // Path to custom icon image
+                        // Optionally, you can specify the icon size and origin
+                        scaledSize: new google.maps.Size(20, 20), // Scaled size (width, height)
+                        origin: new google.maps.Point(0, 0), // Origin (x, y)
+                        anchor: new google.maps.Point(10, 10) // Anchor (x, y)
+                    }
                 });
 
                 // Check for a description and add info window
@@ -68,9 +147,8 @@
         }
     </script>
 
-    <!-- Replace 'YOUR_API_KEY' with your actual Google Maps API key -->
     <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUlY1OEWoOkQTEFxOOV9uBZRrWCS9VB5M&callback=initMap">
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZmQ7dDmii8uuDNwWWXKXWyeJsQsZ3JmY&callback=initMap">
     </script>
 </body>
 </html>
