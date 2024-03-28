@@ -28,11 +28,14 @@
 
             var data = [
                     // Headers (for simplicity, we're not including nested objects like 'coords' and 'additionalInfo')
-                    ["name", "lat", "lng", "description", "address", "phone", "website", "patio", "group", "fullmeal", "rack"],
-                    ["Dageraad Brewing", 49.256172, -122.922122, "Small-batch artisan brewery", "3191 Thunderbird Crescent #114, Burnaby", "604-420-2050", "dageraadbrewing.com", "?", "?", "?", "Y"],
-                    ["Sanctuary Cafe", 49.118706, -123.158662, "Popular with cyclists", "13020 No 2 Rd #160, Richmond", "604-340-6888", "www.sanctuarycafeyvr.com", "Y", "Large", "Y", "Y"],
-                    ["inBtwn Cafe", 49.27512252715708, -123.13368729854297, "Home-made sweet treats and savoury bites.", "1625 Hornby St, Vancouver", "604-568-0971", "www.inbtwncafe.ca", "N", "Tiny", "N", "Meters"]
-                ];
+                    ["name","lat","lng","description","address","phone","website","patio","group","fullmeal","rack"],
+                    ["Dageraad Brewing",49.256172,-122.922122,"Small-batch artisan brewery","3191 Thunderbird Crescent #114, Burnaby","604-420-2050","dageraadbrewing.com","?","?","?","Y"],
+                    ["Sanctuary Cafe",49.118706,-123.158662,"Popular with cyclists","13020 No 2 Rd #160, Richmond","604-340-6888","www.sanctuarycafeyvr.com","Y","Large","Y","Y"],
+                    ["inBtwn Cafe",49.2751225271571,-123.133687298543,"Home-made sweet treats and savoury bites.","1625 Hornby St, Vancouver","604-568-0971","www.inbtwncafe.ca","N","Tiny","N","Meters"],
+                    ["Tinhouse Brewing Co.",49.2520359257663,-122.732909446363,"Lounge and patio, on Traboulay Poco Trail","550 Sherling Pl #2140, Port Coquitlam","604-474-3434","tinhousebrewing.ca","Y","?","?","?"],
+                    ["Red Truck",49.2686790807303,-123.096756897474,"Hearty BBQ, burgers, and all-day breakfast to satisfy","295 E 1st Ave, Vancouver","604-682-4733","redtruckbeer.com","N","Large","Y","?"],
+                    ["Enroute Coffee",49.270969503575,-123.155404704318,"Coffee, bikes, accessories, and repairs","2205 W 1st Ave, Vancouver","604-423-9900","enroute.cc","Y","Medium","N","Y"],
+                    ["Greenhorn Cafe",49.2866198765632,-123.133941303486,"Gourmet breakfast & lunch","994 Nicola St, Vancouver","604-428-2912","www.greenhorncafe.com","Y","Small","Y","Y"]                ];
 
             function convertArrayToObjects(data) {
                 // Extract headers
