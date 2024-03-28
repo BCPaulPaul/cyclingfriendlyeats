@@ -12,6 +12,7 @@
 </head>
 <body>
     <h3>Cycling Friendly Eateries In Vancouver Area BC [TEST]</h3>
+    
     <div id="map"></div>
 
     <script>
@@ -69,6 +70,31 @@
 
             var locations = convertArrayToObjects(data);
             //console.log(locations);
+
+            // Insert this snippet right after the locations array is defined and populated
+            var featuredLocationIndex = Math.floor(Math.random() * (locations.length - 1)) + 1; // Select a random location index, adjusted for header row
+            var featuredLocation = locations[featuredLocationIndex - 1]; // Adjust for header row offset in locations array
+            
+            // Create a function to display the featured location details
+            function displayFeaturedLocation(location) {
+                // Assuming there's an element with the ID 'featuredLocation' where you want to display the details.
+                // Add an HTML element with this ID above your map in the HTML body if it doesn't already exist.
+                var featuredLocationDiv = document.createElement('div');
+                featuredLocationDiv.id = 'featuredLocation';
+                featuredLocationDiv.style.padding = '10px';
+                featuredLocationDiv.style.marginBottom = '10px';
+                featuredLocationDiv.style.border = '1px solid #ddd';
+                featuredLocationDiv.style.backgroundColor = '#f9f9f9';
+                
+                var content = `<h4>Featured Location: ${location.name}</h4><p>${location.description}</p>`;
+                featuredLocationDiv.innerHTML = content;
+                
+                document.body.insertBefore(featuredLocationDiv, document.getElementById('map'));
+            }
+
+// Call the function to display the featured location's details
+displayFeaturedLocation(featuredLocation);
+
 
             // Loop through locations and add markers
             locations.forEach(function(location) {
