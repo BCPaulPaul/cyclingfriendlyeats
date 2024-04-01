@@ -113,22 +113,41 @@
             // New map
             var map = new google.maps.Map(document.getElementById('map'), options);
 
-            var data = [
-                    // Headers (for simplicity, we're not including nested objects like 'coords' and 'additionalInfo')
-["name","lat","lng","description","address","phone","website","patio","group","fullmeal","rack"],
-["Dageraad Brewing",49.256172,-122.922122,"Small-batch artisan brewery","3191 Thunderbird Crescent #114, Burnaby","604-420-2050","dageraadbrewing.com","?","?","?","Y"],
-["Sanctuary Cafe",49.118706,-123.158662,"Popular with cyclists","13020 No 2 Rd #160, Richmond","604-340-6888","www.sanctuarycafeyvr.com","Y","Large","Y","Y"],
-["inBtwn Cafe",49.2751225271571,-123.133687298543,"Home-made sweet treats and savoury bites.","1625 Hornby St, Vancouver","604-568-0971","www.inbtwncafe.ca","N","Tiny","N","Meters"],
-["Tinhouse Brewing Co.",49.2520359257663,-122.732909446363,"Lounge and patio, on Traboulay Poco Trail","550 Sherling Pl #2140, Port Coquitlam","604-474-3434","tinhousebrewing.ca","Y","?","?","?"],
-["Red Truck",49.2686790807303,-123.096756897474,"Hearty BBQ, burgers, and all-day breakfast to satisfy","295 E 1st Ave, Vancouver","604-682-4733","redtruckbeer.com","N","Large","Y","?"],
-["Enroute Coffee",49.270969503575,-123.155404704318,"Coffee, bikes, accessories, and repairs","2205 W 1st Ave, Vancouver","604-423-9900","enroute.cc","Y","Medium","N","Y"],
-["Greenhorn Cafe",49.2866198765632,-123.133941303486,"Gourmet breakfast & lunch","994 Nicola St, Vancouver","604-428-2912","www.greenhorncafe.com","Y","Small","Y","Y"],
-["Luppolo Brewing Co.",49.2769095097495,-123.080624939531,"Beer, atmosphere, delicious Italian food","1123 Venables St, Vancouver","604-255-4997","luppolobrewing.ca","Y?","Large","Y","Y"],
-["United Strangers",49.3162002487387,-122.998420359235,"They love hosting cyclists of all kind","2740 Mt Seymour Pkwy, North Vancouver","604-987-3116","www.unitedstrangerscoffee.com","Small","Smail","Y","N?"],
-["Wildeye Brewing",49.3057559709108,-123.034942776142,"Beer, food","1385 Main St, North Vancouver","604-988-1900","wildeyebrewing.ca","Y","Large","Y","Y"],
-["Bomber Brewing",49.2774441012748,-123.074577803924,"Craft beers brewed in East Van, authentic Mexican food.","1488 Adanac St, Vancouver","604-428-7457","bomberbrewing.com","Y","Large","Y","Y"],
-["R&B Ale & Pizza House",49.267227541052,-123.10332659661,"Special brewings and a range of pizzas","1-54 E 4th Ave, Vancouver","604-336-0275","randbbrewing.com","Y","Large","Y","Y"],
-["Steel & Oak Brewing Co.",49.2019584902128,-122.927447244094,"Craft beers and food truck","1319 3rd Ave, New Westminster","604-540-6495","steelandoak.ca","Y","Large","-","Y"]
+            var data = 
+            [
+                ["name","lat","lng","description","address","phone","website","patio","group","fullmeal","rack"],
+                ["Dageraad Brewing",49.256172,-122.922122,"Small-batch artisan brewery","3191 Thunderbird Crescent #114, Burnaby","604-420-2050","dageraadbrewing.com","?","?","?","Y"],
+                ["Sanctuary Cafe",49.118706,-123.158662,"Popular with cyclists","13020 No 2 Rd #160, Richmond","604-340-6888","www.sanctuarycafeyvr.com","Y","Large","Y","Y"],
+                ["inBtwn Cafe",49.2751225271571,-123.133687298543,"Home-made sweet treats and savoury bites","1625 Hornby St, Vancouver","604-568-0971","www.inbtwncafe.ca","N","Tiny","N","N"],
+                ["Tinhouse Brewing Co.",49.2520359257663,-122.732909446363,"Lounge and patio, on Traboulay Poco Trail","550 Sherling Pl #2140, Port Coquitlam","604-474-3434","tinhousebrewing.ca","Y","?","?","?"],
+                ["Red Truck",49.2686790807303,-123.096756897474,"Hearty BBQ, burgers, and all-day breakfast to satisfy","295 E 1st Ave, Vancouver","604-682-4733","redtruckbeer.com","N","Large","Y","?"],
+                ["Enroute Coffee",49.270969503575,-123.155404704318,"Coffee, bikes, accessories, and repairs","2205 W 1st Ave, Vancouver","604-423-9900","enroute.cc","Y","Medium","N","Y"],
+                ["Greenhorn Cafe",49.2866198765632,-123.133941303486,"Gourmet breakfast & lunch","994 Nicola St, Vancouver","604-428-2912","www.greenhorncafe.com","Y","Small","Y","Y"],
+                ["Luppolo Brewing Co.",49.2769095097495,-123.080624939531,"Beer, atmosphere, delicious Italian food","1123 Venables St, Vancouver","604-255-4997","luppolobrewing.ca","Y?","Large","Y","Y"],
+                ["United Strangers",49.3162002487387,-122.998420359235,"They love hosting cyclists of all kind","2740 Mt Seymour Pkwy, North Vancouver","604-987-3116","www.unitedstrangerscoffee.com","Small","Smail","Y","N?"],
+                ["Wildeye Brewing",49.3057559709108,-123.034942776142,"Beer, food","1385 Main St, North Vancouver","604-988-1900","wildeyebrewing.ca","Y","Large","Y","Y"],
+                ["Bomber Brewing",49.2774441012748,-123.074577803924,"Craft beers brewed in East Van, authentic Mexican food.","1488 Adanac St, Vancouver","604-428-7457","bomberbrewing.com","Y","Large","Y","Y"],
+                ["R&B Ale & Pizza House",49.267227541052,-123.10332659661,"Special brewings and a range of pizzas","1-54 E 4th Ave, Vancouver","604-336-0275","randbbrewing.com","Y","Large","Y","Y"],
+                ["Steel & Oak Brewing Co.",49.2019584902128,-122.927447244094,"Craft beers and food truck","1319 3rd Ave, New Westminster","604-540-6495","steelandoak.ca","Y","Large","-","Y"],
+                ["Gasoline Alley",49.1695797175522,-122.578893907108,"Great picnic tables area with lots of restaurants and cafes","9199 Glover Rd, Langley Twp",,,"Y","Large","Y","N"],
+                ["Velo Star Cafe",49.2571150323475,-123.120256375999,"Unique bike shop and cafe combined","3195 Heather St, Vancouver","604-376-8223","velostarcafe.com","Y","Small","N","Y"],
+                ["Pallet Coffee Roasters",49.2818110528826,-123.063890231255,"House-roasted java & baked goods, sandwiches, salads & panini.","323 Semlin Dr, Vancouver","604-255-2014","www.palletcoffeeroasters.com","Y","Small","Y","N"],
+                ["Cafe Villaggio",49.2912205005671,-123.127850159793,"Cafe on Coal Harbour","1506 Coal Harbour Quay, Vancouver","604-687-6599",,"Y","Small","Y","N"],
+                ["Crema Cafe",49.3275345742958,-123.156639325434,"Coffee, baked goods, wood-fired pizza, and fine wine","1495 Bellevue Ave, West Vancouver","604-922-2294","www.cremacafebar.com","Y","Large","Y","Y"],
+                ["Paper Crane Cafe",49.2626344967904,-123.092220775247,"Coffee and treats","531 E Broadway, Vancouver",,,"N","Tiny","N","Y"],
+                ["Matchstick (Fraser Street)",49.2572961042428,-123.090278338465,"A group of coffee roasting and food enthusiasts","639 E 15th Ave, Vancouver","604-558-0639","matchstickyvr.com","Y","Small","N","Y"],
+                ["Moja Coffee Roasters (Vancouver)",49.3081415847639,-123.033991600487,"Coffee and treats","1102 Commercial Dr, Vancouver","604-879-6652","www.mojacoffee.com","Y","Small","N","N"],
+                ["Caffe Mira",49.2142287880224,-122.897834159917,"Coffee, croissants, sandwiches","28 E Royal Ave #130, New Westminster","604-544-0789","www.caffemira.com","Y","Tiny","Y","N"],
+                ["Tap & Barrel",49.2717826740579,-123.106092474098,"Contemporary pub, craft brews, scenic views.","75 Athletes Way, Vancouver","604-685-2223","tapandbarrel.com","Y","Large","Y","Y"],
+                ["The Galley Patio and Grill",49.2756177903442,-123.201313050729,"Second Floor, Jericho Sailing Centre (Still open?)","1300 Discovery St, Vancouver","604-222-1331","thegalley.ca","Y","Large","Y","?"],
+                ["Starbucks, north end of Ironworkers bridge",49.3057134827167,-123.018417949296,"Starbucks standard fare","2100 Dollarton Hwy, North Vancouver","604-929-6047","www.starbucks.ca","Y","Medium","N","N"],
+                ["Starbucks, Boyd St",49.1910558254095,-122.94718923801,"Starbucks standard fare","805 Boyd St, New Westminster","604-628-7487","www.starbucks.ca","Y","Small","N","N"],
+                ["Garry Point Grill & Fish 'N' Chips",49.1253554645205,-123.19227816409,"Fish and chips, picnic tables","12771 Seventh Ave, Richmond","604-370-8696","garrypointfishandchips.com","Y","Large","Y","N"],
+                ["Lonsdale Quay",49.310363790274,-123.081811719713,"Many restaurants, cafes, etc","123 Carrie Cates Ct, North Vancouver","604-985-6261",,"Y","Large","Y","Y"],
+                ["Isetta Cafe Bistro",49.3404417847454,-123.239765164509,"Isetta is your stop for good food, drink and warm experiences","4360 Marine Dr, West Vancouver","778-279-8299","isetta.ca","Y","Large","Y","Y"],
+                ["Sabà Cafe",49.1696094608055,-122.576175110477,"Mediterranean café and restaurant (2 locations in Fort Langley)","23343 Mavis Ave unit 102, Langley Twp","778-545-0024","sabacafeandbistro.ca","Y","Medium","Y","N"],
+                ["Northpaw Brew Co",49.2530268493147,-122.733185713885,"Craft brewery and food","2150-570 Sherling Pl, Port Coquitlam","604-475-3660","www.northpawbrewco.com","?","Large","Y","N"],
+                ["Boardwalk Cafe",49.0488266125075,-122.289949971176,"600 tabletop games to play","33760 Essendene Ave, Abbotsford","778-666-5006","abbyboardwalk.com","N","Medium","Y","N"]
             ]
             function convertArrayToObjects(data) {
                 // Extract headers
