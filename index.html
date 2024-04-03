@@ -111,10 +111,60 @@
 	    text-decoration: none; /* Optional: Removes the underline from the link */
 	}
 
+	#aboutSiteLink {
+	    color: #ffffff; /* White color */
+	    text-decoration: none; /* Optional: Removes the underline from the link */
+	}
+
+
+	/* Popup Overlay */
+	.popup-overlay {
+	    position: fixed;
+	    top: 0;
+	    left: 0;
+	    width: 100%;
+	    height: 100%;
+	    background-color: rgba(0, 0, 0, 0.75);
+	    z-index: 1000;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	}
+
+	/* Popup Content Box */
+	.popup-content {
+	    background-color: #fff;
+	    padding: 20px;
+	    border-radius: 5px;
+	    width: 80%;
+	    max-width: 500px;
+	    position: relative;
+	}
+
+	/* Close Button */
+	.close-btn {
+	    position: absolute;
+	    top: 10px;
+	    right: 15px;
+	    font-size: 25px;
+	    cursor: pointer;
+	}
+
+
 
     </style>
 </head>
 <body>
+
+	<!-- Popup Structure -->
+	<div id="aboutPopup" class="popup-overlay" style="display:none;">
+	    <div class="popup-content">
+		<span class="close-btn" id="closePopup">&times;</span>
+		<h2>About This Site</h2>
+		<p>This website is dedicated to providing cyclists in the BC Lower Mainland with information about cyclist-friendly eateries and cafes. Discover places where you can enjoy a meal or drink with secure bike parking (most often a patio with eyes-on-bikes) and a welcoming atmosphere for cyclists. If you have suggested eyes-on-bikes BC lower mainland eatery suggestions, please use the email link below and provide the location name and address. Thank you!</p>
+	    </div>
+	</div>
+
     <header id="header">
         <h1>Map for Hungry/Thirsty Cyclists</h1>
         <p id="title">Find the best cyclist-friendly eats/drinks near Vancouver</p>
@@ -125,6 +175,7 @@
         </div>
     </main>
     <footer>
+	<p><a href="javascript:void(0);" id="aboutSiteLink">About This Site</a><p>
         <p>Contact me: <span id="emailPlaceholder">Email Me</span></p>
 	<a href="#" id="downloadGPX">Download GPX File</a>
     </footer>
@@ -206,7 +257,6 @@
 ["Olivier's La Boulangerie",49.229014521346,-122.861889774815,"French family bakery, danishes, pastries and savoury","12 King Edward St #101, Coquitlam","778-285-8662","www.oliviersbreads.com","Y","Small","Y","Y"],
 ["Bean Around The World Coffee House & Bistro",49.2589060278903,-123.248100490048,"Fresh B.C. roasted coffee beans from around the world","6308 Thunderbird Blvd, Vancouver","604-568-8893","batwcoffee.com","Y","Large","Y","N"],
 ["End of the Line General Store",49.3476506889464,-123.02312046205,"Serving coffee and snacks for people visiting Lynn Canyon","4193 Lynn Valley Rd, North Vancouver","604-904-2366","www.eotl.ca","Y","Large","Y","N"]
-
 
             ]
 
@@ -380,6 +430,17 @@
 		var element = document.getElementById('emailPlaceholder');
 		element.innerHTML = '<a id="emailID" href="mailto:' + user + '@' + domain + '">' + user + '@' + domain + '</a>';
 	});
+
+
+	// JavaScript to Control Popup Visibility
+	document.getElementById('aboutSiteLink').addEventListener('click', function() {
+	    document.getElementById('aboutPopup').style.display = 'flex';
+	});
+
+	document.getElementById('closePopup').addEventListener('click', function() {
+	    document.getElementById('aboutPopup').style.display = 'none';
+	});
+
 
     </script>
     
