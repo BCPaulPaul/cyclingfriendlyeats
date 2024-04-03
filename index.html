@@ -96,6 +96,22 @@
                 padding: 20% 0; /* Maintain aspect ratio */
             }
         }
+
+	#downloadGPX {
+	    color: #ffffff; /* White color */
+	    text-decoration: none; /* Optional: Removes the underline from the link */
+	}
+
+	#downloadGPX:hover {
+	    text-decoration: underline; /* Optional: Adds underline on hover for better UX */
+	}
+
+	#emailID {
+	    color: #ffffff; /* White color */
+	    text-decoration: none; /* Optional: Removes the underline from the link */
+	}
+
+
     </style>
 </head>
 <body>
@@ -109,7 +125,8 @@
         </div>
     </main>
     <footer>
-        <p>Contact me: pault@telus.net</p>
+        <p>Contact me: <span id="emailPlaceholder">Email Me</span></p>
+	<a href="#" id="downloadGPX">Download GPX File</a>
     </footer>
     
     
@@ -182,9 +199,15 @@
 ["Doughgirls Comfort Kitchen",49.2545954218953,-123.235930613911,"Passion for food","3322 Shrum Lane, Vancouver","604-333-5474","doughgirlsbakeshop.com","Y","Small","N","N"],
 ["Stomping Grounds Cafe & Bistro",49.2016095071921,-122.681000255159,"Vegetarian Friendly, Vegan Options, Gluten Free Options","10931 Barnston View Rd, Pitt Meadows","604-460-0111",,"Y","Small","Y","Y"],
 ["Gabi & Jules Handmade Pies",49.2780683504888,-122.861088951659,"Pies and more!!!!","2302B Clarke St, Port Moody","604-492-4226","gabiandjules.com","Y","Small","N","N"],
-["Parallel 49 Brewing",49.2837815993723,-123.064392445866,"Brewery with a low-key tasting room","1950 Triumph St, Vancouver","604-558-2739","parallel49brewing.com","Y","Medium","Y","N"]
+["Parallel 49 Brewing",49.2837815993723,-123.064392445866,"Brewery with a low-key tasting room","1950 Triumph St, Vancouver","604-558-2739","parallel49brewing.com","Y","Medium","Y","N"],
+["Forecast Coffee",49.258482631841,-123.100942114953,"Coffee for everyone. Sponsors cycling team.","2980 Main St, Vancouver","604-559-6160","forecastcoffee.ca","Y","Large","Y","Y"],
+["Siegel's Bagels",49.2727262002577,-123.147389135176,"Authentic bagels and sandwiches","1883 Cornwall Ave, Vancouver","604-737-8151","siegelsbagels.com","Y","Tiny","Y","Y"],
+["Anny's Dairy Bar",49.2149384792735,-122.922800523521,"Ice cream and poutine!","722 6th Street, New Westminster","604-515-1410",,"Y","Tiny","Y","N"],
+["Olivier's La Boulangerie",49.229014521346,-122.861889774815,"French family bakery, danishes, pastries and savoury","12 King Edward St #101, Coquitlam","778-285-8662","www.oliviersbreads.com","Y","Small","Y","Y"]
+
 
             ]
+
             function convertArrayToObjects(data) {
                 // Extract headers
                 const headers = data[0];
@@ -198,17 +221,17 @@
                         });
                         // Example of restructuring into a more complex object similar to the provided example
                         return {
-                            name: obj.name,
+                            name: obj.name || "",
                             coords: { lat: obj.lat, lng: obj.lng },
-                            description: obj.description,
+                            description: obj.description || "",
                             additionalInfo: {
-                                address: obj.address,
-                                phone: obj.phone,
-                                website: obj.website,
-                                patio: obj.patio,
-                                group: obj.group,
-                                fullmeal: obj.fullmeal,
-                                rack: obj.rack
+                                address: obj.address || "",
+                                phone: obj.phone || "",
+                                website: obj.website || "",
+                                patio: obj.patio || "",
+                                group: obj.group || "",
+                                fullmeal: obj.fullmeal || "",
+                                rack: obj.rack || ""
                         }
                     };
                 });
@@ -292,34 +315,70 @@
                 }
             }
 
+		function escapeXML(str) {
+		    return str.replace(/[<>&'"]/g, function (char) {
+			switch (char) {
+			    case '<': return '&lt;';
+			    case '>': return '&gt;';
+			    case '&': return '&amp;';
+			    case "'": return '&apos;';
+			    case '"': return '&quot;';
+			    default: return char;
+			}
+		    });
+		}
 
-            function addMarker0(location) {
-                var marker = new google.maps.Marker({
-                    position: location.coords,
-                    map: map,
-                    title: location.name,
-                    // Specify the custom icon here
-                    icon: {
-                        url: 'cycle_food.png', // Path to custom icon image
-                        // Optionally, you can specify the icon size and origin
-                        scaledSize: new google.maps.Size(20, 20), // Scaled size (width, height)
-                        origin: new google.maps.Point(0, 0), // Origin (x, y)
-                        anchor: new google.maps.Point(10, 10) // Anchor (x, y)
-                    }
-                });
 
-                // Check for a description and add info window
-                if (location.description) {
-                    var infoWindow = new google.maps.InfoWindow({
-                        content: `<h4>${location.name}</h4><p>${location.description}</p>`
-                    });
+		// Function to generate GPX file content from the locations array
+		function generateGPXContent(locations) {
+		    let gpxContent = `<?xml version="1.0" encoding="UTF-8"?>
+		<gpx version="1.1" creator="GPX Creator" xmlns="http://www.topografix.com/GPX/1/1">
+		    <metadata>
+			<name>Cyclists Map for Food/Drink Locations</name>
+			<desc>GPX Data of Cyclist-friendly eateries/cafes</desc>
+		    </metadata>`;
 
-                    marker.addListener('click', function() {
-                        infoWindow.open(map, marker);
-                    });
-                }
-            }
+		    locations.forEach(location => {
+			gpxContent += `
+		    <wpt lat="${location.coords.lat}" lon="${location.coords.lng}">
+			<name>${escapeXML(location.name)}</name>
+			<desc>${escapeXML(location.description)} (${escapeXML(location.additionalInfo.address)} ${escapeXML(location.additionalInfo.website)})</desc>
+		    </wpt>`;
+		    });
+
+		    gpxContent += `
+		</gpx>`;
+
+		    return gpxContent;
+		}
+
+		// Function to trigger GPX file download
+		function downloadGPXFile() {
+		    const locations = convertArrayToObjects(data); // Assume this function converts your data array to location objects
+		    const gpxContent = generateGPXContent(locations);
+		    const blob = new Blob([gpxContent], {type: 'application/gpx+xml'});
+		    const url = URL.createObjectURL(blob);
+		    const link = document.createElement('a');
+		    link.href = url;
+		    link.download = 'locations.gpx';
+		    document.body.appendChild(link);
+		    link.click();
+		    document.body.removeChild(link);
+		    URL.revokeObjectURL(url); // Clean up to avoid memory leaks
+		}
+
+		document.getElementById('downloadGPX').addEventListener('click', downloadGPXFile);
         }
+
+
+
+	document.addEventListener('DOMContentLoaded', function() {
+		var user = 'pault';
+		var domain = 'telus.net';
+		var element = document.getElementById('emailPlaceholder');
+		element.innerHTML = '<a id="emailID" href="mailto:' + user + '@' + domain + '">' + user + '@' + domain + '</a>';
+	});
+
     </script>
     
     <!-- AIzaSyDZmQ7dDmii8uuDNwWWXKXWyeJsQsZ3JmY -->
