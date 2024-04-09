@@ -1,9 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HE3W6M58EL"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-HE3W6M58EL');
+    </script>    
+    
+    <meta name="description" content="Cyclist friendly eateries/cafes in the BC Lower Mainland.">
+    <meta name="keywords" content="Cyclist patio secure bike cycling BC lower maintland vancouver bicycle food coffee tea beer">
+    <meta name="author" content="Paul Toth">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Café Map for Cyclists</title>
+    <title>Cyclists Map for Food/Drink in Vancouver</title>
     <style>
         /* Basic Reset */
         * {
@@ -78,15 +92,82 @@
             #map {
                 width: 95%;
                 height: auto;
+                height: 50vh; /* Use 50% of the viewport height */
                 padding: 20% 0; /* Maintain aspect ratio */
             }
         }
+
+	#downloadGPX {
+	    color: #ffffff; /* White color */
+	    text-decoration: none; /* Optional: Removes the underline from the link */
+	}
+
+	#downloadGPX:hover {
+	    text-decoration: underline; /* Optional: Adds underline on hover for better UX */
+	}
+
+	#emailID {
+	    color: #ffffff; /* White color */
+	    text-decoration: none; /* Optional: Removes the underline from the link */
+	}
+
+	#aboutSiteLink {
+	    color: #ffffff; /* White color */
+	    text-decoration: none; /* Optional: Removes the underline from the link */
+	}
+
+
+	/* Popup Overlay */
+	.popup-overlay {
+	    position: fixed;
+	    top: 0;
+	    left: 0;
+	    width: 100%;
+	    height: 100%;
+	    background-color: rgba(0, 0, 0, 0.75);
+	    z-index: 1000;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	}
+
+	/* Popup Content Box */
+	.popup-content {
+	    background-color: #fff;
+	    padding: 20px;
+	    border-radius: 5px;
+	    width: 80%;
+	    max-width: 500px;
+	    position: relative;
+	}
+
+	/* Close Button */
+	.close-btn {
+	    position: absolute;
+	    top: 10px;
+	    right: 15px;
+	    font-size: 25px;
+	    cursor: pointer;
+	}
+
+
+
     </style>
 </head>
 <body>
+
+	<!-- Popup Structure -->
+	<div id="aboutPopup" class="popup-overlay" style="display:none;">
+	    <div class="popup-content">
+		<span class="close-btn" id="closePopup">&times;</span>
+		<h2>About This Site</h2>
+		<p>This website is dedicated to providing cyclists in the BC Lower Mainland with information about cyclist-friendly eateries and cafes. Discover places where you can enjoy a meal or drink with secure bike parking (most often a patio with eyes-on-bikes) and a welcoming atmosphere for cyclists. If you have suggested eyes-on-bikes BC lower mainland eatery suggestions, please use the email link below and provide the location name and address. Thank you!</p>
+	    </div>
+	</div>
+
     <header id="header">
         <h1>Map for Hungry/Thirsty Cyclists</h1>
-        <p id="title">Find the best cyclist-friendly eats/drinks near you</p>
+        <p id="title">Find the best cyclist-friendly eats/drinks near Vancouver</p>
     </header>
     <main>
         <div id="map">
@@ -94,7 +175,9 @@
         </div>
     </main>
     <footer>
-        <p>Contact me: pault@telus.net</p>
+	<p><a href="javascript:void(0);" id="aboutSiteLink">About This Site</a><p>
+        <p>Contact me: <span id="emailPlaceholder">Email Me</span></p>
+	<a href="#" id="downloadGPX">Download GPX File</a>
     </footer>
     
     
@@ -112,8 +195,8 @@
             // New map
             var map = new google.maps.Map(document.getElementById('map'), options);
 
-            var data = [
-                    // Headers (for simplicity, we're not including nested objects like 'coords' and 'additionalInfo')
+            var data = 
+            [
 ["name","lat","lng","description","address","phone","website","patio","group","fullmeal","rack"],
 ["Dageraad Brewing",49.256172,-122.922122,"Small-batch artisan brewery","3191 Thunderbird Crescent #114, Burnaby","604-420-2050","dageraadbrewing.com","?","?","?","Y"],
 ["Sanctuary Cafe",49.118706,-123.158662,"Popular with cyclists","13020 No 2 Rd #160, Richmond","604-340-6888","www.sanctuarycafeyvr.com","Y","Large","Y","Y"],
@@ -146,9 +229,38 @@
 ["Isetta Cafe Bistro",49.3404417847454,-123.239765164509,"Isetta is your stop for good food, drink and warm experiences","4360 Marine Dr, West Vancouver","778-279-8299","isetta.ca","Y","Large","Y","Y"],
 ["Sabà Cafe",49.1696094608055,-122.576175110477,"Mediterranean café and restaurant (2 locations in Fort Langley)","23343 Mavis Ave unit 102, Langley Twp","778-545-0024","sabacafeandbistro.ca","Y","Medium","Y","N"],
 ["Northpaw Brew Co",49.2530268493147,-122.733185713885,"Craft brewery and food","2150-570 Sherling Pl, Port Coquitlam","604-475-3660","www.northpawbrewco.com","?","Large","Y","N"],
-["Boardwalk Cafe",49.0488266125075,-122.289949971176,"600 tabletop games to play","33760 Essendene Ave, Abbotsford","778-666-5006","abbyboardwalk.com","N","Medium","Y","N"]
-          
-                    ];
+["Boardwalk Cafe",49.0488266125075,-122.289949971176,"600 tabletop games to play","33760 Essendene Ave, Abbotsford","778-666-5006","abbyboardwalk.com","N","Medium","Y","N"],
+["Taylight Brewing",49.2421113779176,-122.755150226305,"Serving craft beer everyone enjoys and light meals","1485 Coast Meridian Rd #402, Port Coquitlam","604-283-1944","taylightbrewing.com","Y","Large","Y","N"],
+["Patina Brewing Co",49.2613424831592,-122.783626199381,"Craft beer and BBQ","2332 Marpole Ave, Port Coquitlam","604-474-0025","patinabrewing.com","Y","Large","Y","Y"],
+["Multiple Port Moody Breweries",49.2789143454721,-122.848443175117,"Many breweries and food options all on one block","2800 Murray Street, Port Moody",,,"Y","Large","Y","-"],
+["L'aromas",49.0248732890323,-123.066869183673,"Locally owned coffee and bakery chain, high-quality artisan products","1200 56 St, Delta","604-943-0409","www.laromas.ca","Y","Large","Y","Y"],
+["Hopcott Farms",49.2447756952276,-122.712171258039,"Farm fresh foods","18385 Old Dewdney Trunk Rd, Pitt Meadows","604-465-5000","www.hopcottfarms.ca","Y","Large","Y","N"],
+["Breka Bakery & Café",49.2856443077172,-123.127226758111,"Coffee, treats, sandwiches","812 Bute St, Vancouver","604-620-8200","breka.ca","Y","Large","N","Y"],
+["Terra Breads",49.2714231930102,-123.106826265727,"Coffee, treats, sandwiches","1605 Manitoba St, Vancouver, BC V5Y 3B7","604-877-1183","www.terrabreads.com","Y","Large","N","Y"],
+["Beach Grove Café",49.0257544123904,-123.058482665828,"Home and Fashion Boutique & Cafe ","1269 Beach Grove Rd, Delta","604-943-8338","beachgrovecafeandboutique.com","Y","Small","N","Y"],
+["Barnside Brewing",49.1121850143058,-123.038964325007,"A true farm-based brewery","6655 60 Ave, Delta","778-434-2264","barnsidebrewing.ca","Y","Large","Y","Y"],
+["Crazy Raven Bar and Grill (Cypress Mountain)",49.396599880565,-123.204711559013,"Scenic views, food & drink, a gas fireplace","6000 Cypress Bowl Rd, West Vancouver","604-926-5612","cypressmountain.com/dining/crazy-raven-pub","Y","Large","Y","Y"],
+["Convivial Cafe And Bakery",49.2674289803277,-123.119607285479,"Small scratch bakery with a strong community focus","680 Leg in Boot Square, Vancouver","604-675-9885","convivialcafe.ca","Y","Large","N","N"],
+["The Watershed Grill",49.7534440428074,-123.141579157088,"Chill bar & restaurant with Canadian eats","41101 Government Rd, Brackendale","604-898-6665","thewatershedgrill.com","Y","Large","Y","N"],
+["Four Winds Brewing",49.1362889234878,-123.027054788799,"Great tacos and beer flights","4-7355 72nd Street","604-940-9949","fourwindsbrewing.ca","N","Large","Y","Y"],
+["Tenen Restaurant",49.2154306989694,-122.988923959831,"Eastern Euro specialties,cozy antiques-filled room, back patio","7569 Royal Oak Ave","604-336-6665","www.tenenrestaurant.com","Y","?","Y","?"],
+["Reverie Kitchen",49.2815290241654,-123.023077803676,"Breakfast & Italian grub, comfort staples, coffee & assorted gelato","3701 Hastings St #101, Burnaby","604-298-4004","www.instagram.com/reveriekitchen22/","N","Small?","N?","?"],
+["Caffe Divano",49.2786546381878,-122.837769983179,"Neighbourhood café","101 Klahanie Dr, Port Moody","778-355-3304","caffedivano.ca","Y","Small","N","N"],
+["JJ Bean Coffee Roasters",49.279236350335,-122.828579850443,"In Suter Brook Village","400 Capilano Rd Unit #7, Port Moody","604-492-3666","jjbeancoffee.com","Y","Small","N","N"],
+["Doughgirls Comfort Kitchen",49.2545954218953,-123.235930613911,"Passion for food","3322 Shrum Lane, Vancouver","604-333-5474","doughgirlsbakeshop.com","Y","Small","N","N"],
+["Stomping Grounds Cafe & Bistro",49.2016095071921,-122.681000255159,"Vegetarian Friendly, Vegan Options, Gluten Free Options","10931 Barnston View Rd, Pitt Meadows","604-460-0111",,"Y","Small","Y","Y"],
+["Gabi & Jules Handmade Pies",49.2780683504888,-122.861088951659,"Pies and more!!!!","2302B Clarke St, Port Moody","604-492-4226","gabiandjules.com","Y","Small","N","N"],
+["Parallel 49 Brewing",49.2837815993723,-123.064392445866,"Brewery with a low-key tasting room","1950 Triumph St, Vancouver","604-558-2739","parallel49brewing.com","Y","Medium","Y","N"],
+["Forecast Coffee",49.258482631841,-123.100942114953,"Coffee for everyone. Sponsors cycling team.","2980 Main St, Vancouver","604-559-6160","forecastcoffee.ca","Y","Large","Y","Y"],
+["Siegel's Bagels",49.2727262002577,-123.147389135176,"Authentic bagels and sandwiches","1883 Cornwall Ave, Vancouver","604-737-8151","siegelsbagels.com","Y","Tiny","Y","Y"],
+["Anny's Dairy Bar",49.2149384792735,-122.922800523521,"Ice cream and poutine!","722 6th Street, New Westminster","604-515-1410",,"Y","Tiny","Y","N"],
+["Olivier's La Boulangerie",49.229014521346,-122.861889774815,"French family bakery, danishes, pastries and savoury","12 King Edward St #101, Coquitlam","778-285-8662","www.oliviersbreads.com","Y","Small","Y","Y"],
+["Bean Around The World Coffee House & Bistro",49.2589060278903,-123.248100490048,"Fresh B.C. roasted coffee beans from around the world","6308 Thunderbird Blvd, Vancouver","604-568-8893","batwcoffee.com","Y","Large","Y","N"],
+["End of the Line General Store",49.3476506889464,-123.02312046205,"Serving coffee and snacks for people visiting Lynn Canyon","4193 Lynn Valley Rd, North Vancouver","604-904-2366","www.eotl.ca","Y","Large","Y","N"],
+["Starbucks, Faser Heights",49.198544,-122.779341,"Coffee and snacks","15976 108 Ave #101, Surrey","604-582-6233","www.starbucks.ca","Y","Medium", "N","Y"]
+
+
+            ]
 
             function convertArrayToObjects(data) {
                 // Extract headers
@@ -163,17 +275,17 @@
                         });
                         // Example of restructuring into a more complex object similar to the provided example
                         return {
-                            name: obj.name,
+                            name: obj.name || "",
                             coords: { lat: obj.lat, lng: obj.lng },
-                            description: obj.description,
+                            description: obj.description || "",
                             additionalInfo: {
-                                address: obj.address,
-                                phone: obj.phone,
-                                website: obj.website,
-                                patio: obj.patio,
-                                group: obj.group,
-                                fullmeal: obj.fullmeal,
-                                rack: obj.rack
+                                address: obj.address || "",
+                                phone: obj.phone || "",
+                                website: obj.website || "",
+                                patio: obj.patio || "",
+                                group: obj.group || "",
+                                fullmeal: obj.fullmeal || "",
+                                rack: obj.rack || ""
                         }
                     };
                 });
@@ -242,7 +354,7 @@
                         const { address, phone, website, patio, group, fullmeal, rack } = location.additionalInfo;
                         infoContent += `Address: ${address}<br>`;
                         infoContent += `Phone: <a href="tel:${phone}">${phone}</a><br>`;
-                        infoContent += `Website: <a href="${website}" target="_blank">${website}</a><br>`;
+                        infoContent += `Website: <a href="http://${website}" target="_blank">${website}</a><br>`;
                         infoContent += `Patio:${patio} Group Size:${group} Full Meal:${fullmeal} Rack:${rack}`;
                         infoContent += `</p>`;
                     }
@@ -257,40 +369,87 @@
                 }
             }
 
+		function escapeXML(str) {
+		    return str.replace(/[<>&'"]/g, function (char) {
+			switch (char) {
+			    case '<': return '&lt;';
+			    case '>': return '&gt;';
+			    case '&': return '&amp;';
+			    case "'": return '&apos;';
+			    case '"': return '&quot;';
+			    default: return char;
+			}
+		    });
+		}
 
-            function addMarker0(location) {
-                var marker = new google.maps.Marker({
-                    position: location.coords,
-                    map: map,
-                    title: location.name,
-                    // Specify the custom icon here
-                    icon: {
-                        url: 'cycle_food.png', // Path to custom icon image
-                        // Optionally, you can specify the icon size and origin
-                        scaledSize: new google.maps.Size(20, 20), // Scaled size (width, height)
-                        origin: new google.maps.Point(0, 0), // Origin (x, y)
-                        anchor: new google.maps.Point(10, 10) // Anchor (x, y)
-                    }
-                });
 
-                // Check for a description and add info window
-                if (location.description) {
-                    var infoWindow = new google.maps.InfoWindow({
-                        content: `<h4>${location.name}</h4><p>${location.description}</p>`
-                    });
+		// Function to generate GPX file content from the locations array
+		function generateGPXContent(locations) {
+		    let gpxContent = `<?xml version="1.0" encoding="UTF-8"?>
+		<gpx version="1.1" creator="GPX Creator" xmlns="http://www.topografix.com/GPX/1/1">
+		    <metadata>
+			<name>Cyclists Map for Food/Drink Locations</name>
+			<desc>GPX Data of Cyclist-friendly eateries/cafes</desc>
+		    </metadata>`;
 
-                    marker.addListener('click', function() {
-                        infoWindow.open(map, marker);
-                    });
-                }
-            }
+		    locations.forEach(location => {
+			gpxContent += `
+		    <wpt lat="${location.coords.lat}" lon="${location.coords.lng}">
+			<name>${escapeXML(location.name)}</name>
+			<desc>${escapeXML(location.description)} (${escapeXML(location.additionalInfo.address)} ${escapeXML(location.additionalInfo.website)})</desc>
+		    </wpt>`;
+		    });
+
+		    gpxContent += `
+		</gpx>`;
+
+		    return gpxContent;
+		}
+
+		// Function to trigger GPX file download
+		function downloadGPXFile() {
+		    const locations = convertArrayToObjects(data); // Assume this function converts your data array to location objects
+		    const gpxContent = generateGPXContent(locations);
+		    const blob = new Blob([gpxContent], {type: 'application/gpx+xml'});
+		    const url = URL.createObjectURL(blob);
+		    const link = document.createElement('a');
+		    link.href = url;
+		    link.download = 'locations.gpx';
+		    document.body.appendChild(link);
+		    link.click();
+		    document.body.removeChild(link);
+		    URL.revokeObjectURL(url); // Clean up to avoid memory leaks
+		}
+
+		document.getElementById('downloadGPX').addEventListener('click', downloadGPXFile);
         }
+
+
+
+	document.addEventListener('DOMContentLoaded', function() {
+		var user = 'pault';
+		var domain = 'telus.net';
+		var element = document.getElementById('emailPlaceholder');
+		element.innerHTML = '<a id="emailID" href="mailto:' + user + '@' + domain + '">' + user + '@' + domain + '</a>';
+	});
+
+
+	// JavaScript to Control Popup Visibility
+	document.getElementById('aboutSiteLink').addEventListener('click', function() {
+	    document.getElementById('aboutPopup').style.display = 'flex';
+	});
+
+	document.getElementById('closePopup').addEventListener('click', function() {
+	    document.getElementById('aboutPopup').style.display = 'none';
+	});
+
+
     </script>
     
-    <!-- Public key AIzaSyDZmQ7dDmii8uuDNwWWXKXWyeJsQsZ3JmY -->
+    <!-- AIzaSyDZmQ7dDmii8uuDNwWWXKXWyeJsQsZ3JmY -->
 
     <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwu3DidfQEHzg2d6fiC3nAn8FIBNFES0U&callback=initMap">
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZmQ7dDmii8uuDNwWWXKXWyeJsQsZ3JmY&callback=initMap">
     </script>
     
 </body>
