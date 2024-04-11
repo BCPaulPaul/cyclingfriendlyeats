@@ -196,6 +196,8 @@
             // New map
             var map = new google.maps.Map(document.getElementById('map'), options);
 
+            var infoWindow = new google.maps.InfoWindow();
+
             var data = 
             [
 ["name","lat","lng","description","address","phone","website","patio","group","fullmeal","rack"],
@@ -362,26 +364,32 @@
                         infoContent += `</p>`;
                     }
 
-                    var infoWindow = new google.maps.InfoWindow({
-                        content: infoContent
-                    });
+                    //var infoWindow = new google.maps.InfoWindow({
+                    //    content: infoContent
+                    //});
 
                     marker.addListener('click', function() {
+                        infoWindow.setContent(infoContent);
                         infoWindow.open(map, marker);
                     });
                 }
             }
 
-		function escapeXML(str) {
-		    return str.replace(/[<>&'"]/g, function (char) {
-			switch (char) {
-			    case '<': return '&lt;';
-			    case '>': return '&gt;';
-			    case '&': return '&amp;';
-			    case "'": return '&apos;';
-			    case '"': return '&quot;';
-			    default: return char;
-			}
+            map.addListener('click', function() {
+                infoWindow.close();
+            });
+
+
+            function escapeXML(str) {
+                return str.replace(/[<>&'"]/g, function (char) {
+                switch (char) {
+                    case '<': return '&lt;';
+                    case '>': return '&gt;';
+                    case '&': return '&amp;';
+                    case "'": return '&apos;';
+                    case '"': return '&quot;';
+                    default: return char;
+                }
 		    });
 		}
 
@@ -445,6 +453,10 @@
 	document.getElementById('closePopup').addEventListener('click', function() {
 	    document.getElementById('aboutPopup').style.display = 'none';
 	});
+
+    google.maps.event.addListener(map, "click", function(event) {
+                        infowindow.close();
+                    });
 
 
     </script>
