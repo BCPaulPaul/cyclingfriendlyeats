@@ -18,6 +18,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cyclists Map for Food/Drink in Vancouver</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         /* Basic Reset */
         * {
@@ -26,38 +29,68 @@
             box-sizing: border-box;
         }
 
+        :root {
+            color-scheme: light;
+            --ink: #1c2432;
+            --ink-muted: #4e5c73;
+            --bg: #f6f1e8;
+            --card: #ffffff;
+            --accent: #ff7a3e;
+            --accent-strong: #f25d2b;
+            --accent-cool: #1f6ab4;
+            --shadow-soft: 0 20px 45px rgba(18, 33, 56, 0.15);
+            --shadow-tight: 0 12px 24px rgba(18, 33, 56, 0.2);
+            --border-light: rgba(28, 36, 50, 0.1);
+        }
+
         body, html {
             height: 100%;
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4; /* Light background to ensure readability */
+            font-family: "Sora", "Trebuchet MS", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top left, #ffe9d6 0%, transparent 45%),
+                radial-gradient(circle at 15% 90%, #d7ecff 0%, transparent 48%),
+                linear-gradient(135deg, #f6f1e8 0%, #f8fafc 100%);
         }
 
         header {
             text-align: center;
-            padding: 20px;
-            background-color: #004d99; /* Darker blue for contrast */
-            color: #ffffff;
+            padding: 28px 20px 24px;
+            background: linear-gradient(135deg, #0f2340 0%, #143a63 55%, #1f6ab4 100%);
+            color: #f8fbff;
+            box-shadow: var(--shadow-tight);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         header h1 {
-            font-size: 24px;
-            margin-bottom: 8px;
+            font-family: "Fraunces", "Georgia", serif;
+            font-size: clamp(26px, 3vw, 38px);
+            margin-bottom: 10px;
+            letter-spacing: 0.02em;
+        }
+
+        #title {
+            font-size: clamp(14px, 2vw, 18px);
+            color: rgba(248, 251, 255, 0.9);
         }
 
         main {
-            height: calc(100% - 140px); /* Adjust based on header and footer size */
+            min-height: 60vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 28px 16px 36px;
         }
 
         #map {
-            width: 90%;
-            max-width: 1200px; /* Limit max width for very large screens */
-            height: 80%;
-            background-color: #e0e0e0; /* Placeholder for the map */
-            border-radius: 8px; /* Adds curvature to the corners */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+            width: min(1100px, 94vw);
+            height: min(70vh, 680px);
+            min-height: 420px;
+            background-color: #dfe7f1;
+            border-radius: 24px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-light);
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -66,92 +99,209 @@
 
         footer {
             text-align: center;
-            padding: 20px;
-            background-color: #00264d; /* Even darker blue for footer */
-            color: #ffffff;
+            padding: 24px 18px 30px;
+            background: linear-gradient(160deg, #0b1523 0%, #121f33 100%);
+            color: #eef4ff;
             position: relative;
             bottom: 0;
             width: 100%;
         }
 
         footer p {
-            font-size: 16px;
+            font-size: 15px;
+            color: rgba(238, 244, 255, 0.9);
+            margin-bottom: 10px;
+        }
+
+        footer img {
+            width: min(320px, 85vw);
+            height: auto;
+            border-radius: 16px;
+            box-shadow: 0 16px 32px rgba(7, 15, 28, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        a {
+            color: var(--accent-cool);
+        }
+
+        #featuredLocation {
+            margin: 16px auto 0;
+            padding: 12px 16px;
+            width: min(820px, 92vw);
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            color: #f8fbff;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 12px 28px rgba(9, 17, 29, 0.3);
+        }
+
+        #featuredLocation strong {
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        #featuredLocation p {
+            margin: 0;
+        }
+
+        #aboutSiteLink,
+        #downloadGPX {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 18px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        #aboutSiteLink {
+            background: rgba(255, 255, 255, 0.12);
+            color: #f1f6ff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 8px;
+        }
+
+        #downloadGPX {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+            color: #ffffff;
+            box-shadow: 0 12px 22px rgba(242, 93, 43, 0.28);
+        }
+
+        #aboutSiteLink:hover,
+        #downloadGPX:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 16px 28px rgba(7, 15, 28, 0.25);
+        }
+
+        #emailID {
+            color: #f1f6ff;
+            text-decoration: underline;
         }
 
         /* Responsive adjustments */
         @media (max-width: 768px) {
             header, footer {
-                padding: 15px;
+                padding: 20px 16px 22px;
             }
 
             main {
-                height: auto; /* Make main content more flexible on smaller screens */
-                padding: 20px 0; /* Add some spacing */
+                min-height: auto;
+                padding: 18px 12px 28px;
             }
 
             #map {
-                width: 95%;
-                height: auto;
-                height: 50vh; /* Use 50% of the viewport height */
-                padding: 20% 0; /* Maintain aspect ratio */
+                width: min(95vw, 700px);
+                height: 55vh;
+                min-height: 360px;
             }
         }
 
-	#downloadGPX {
-	    color: #ffffff; /* White color */
-	    text-decoration: none; /* Optional: Removes the underline from the link */
-	}
+        /* Popup Overlay */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 18, 30, 0.72);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px 16px;
+            animation: fadeIn 0.18s ease-out;
+        }
 
-	#downloadGPX:hover {
-	    text-decoration: underline; /* Optional: Adds underline on hover for better UX */
-	}
+        /* Popup Content Box */
+        .popup-content {
+            background-color: var(--card);
+            padding: 24px;
+            border-radius: 18px;
+            width: min(92vw, 560px);
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: var(--shadow-tight);
+            border: 1px solid var(--border-light);
+            animation: popIn 0.2s ease-out;
+        }
 
-	#emailID {
-	    color: #ffffff; /* White color */
-	    text-decoration: none; /* Optional: Removes the underline from the link */
-	}
+        .popup-content h2 {
+            font-family: "Fraunces", "Georgia", serif;
+            font-size: 24px;
+            margin-bottom: 12px;
+            color: var(--ink);
+        }
 
-	#aboutSiteLink {
-	    color: #ffffff; /* White color */
-	    text-decoration: none; /* Optional: Removes the underline from the link */
-	}
+        .popup-content p {
+            color: var(--ink-muted);
+            line-height: 1.6;
+        }
 
+        /* Close Button */
+        .close-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid rgba(28, 36, 50, 0.12);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.7);
+            transition: transform 0.18s ease, background 0.18s ease;
+        }
 
-	/* Popup Overlay */
-	.popup-overlay {
-	    position: fixed;
-	    top: 0;
-	    left: 0;
-	    width: 100%;
-	    height: 100%;
-	    background-color: rgba(0, 0, 0, 0.75);
-	    z-index: 1000;
-	    display: flex;
-	    justify-content: center;
-	    align-items: center;
-	}
+        .close-btn:hover {
+            transform: scale(1.03);
+            background: #ffffff;
+        }
 
-	/* Popup Content Box */
-	.popup-content {
-	    background-color: #fff;
-	    padding: 20px;
-	    border-radius: 5px;
-	    width: 80%;
-	    max-width: 500px;
-	    position: relative;
-	}
+        .info-window {
+            font-family: "Sora", "Trebuchet MS", sans-serif;
+            color: var(--ink);
+            line-height: 1.5;
+            font-size: 14px;
+            max-width: 240px;
+        }
 
-	/* Close Button */
-	.close-btn {
-	    position: absolute;
-	    top: 10px;
-	    right: 15px;
-	    font-size: 25px;
-	    cursor: pointer;
-	}
+        .info-window strong {
+            font-weight: 700;
+        }
 
+        .info-window a {
+            color: var(--accent-cool);
+            text-decoration: none;
+        }
 
+        .info-window a:hover {
+            text-decoration: underline;
+        }
 
+        @keyframes popIn {
+            from {
+                transform: translateY(8px) scale(0.98);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -175,10 +325,11 @@
         </div>
     </main>
     <footer>
-	    <p><a href="javascript:void(0);" id="aboutSiteLink">About This Site</a><p>
+	    <p><a href="javascript:void(0);" id="aboutSiteLink">About This Site</a></p>
         <p>Contact me: <span id="emailPlaceholder">Email Me</span></p>
-	    <a href="#" id="downloadGPX">Download GPX File</a>
-        <p>Share via this code:<br><img src="qr.png" width="350" alt="QR code to this site"><p>
+	    <p><a href="#" id="downloadGPX">Download GPX File</a></p>
+        <p>Share via this code:</p>
+        <img src="qr.png" width="350" alt="QR code to this site">
     </footer>
     
     
@@ -327,12 +478,8 @@
                 // Add an HTML element with this ID above your map in the HTML body if it doesn't already exist.
                 var featuredLocationDiv = document.createElement('div');
                 featuredLocationDiv.id = 'featuredLocation';
-                featuredLocationDiv.style.padding = '10px';
-                featuredLocationDiv.style.marginBottom = '10px';
-                featuredLocationDiv.style.border = '1px solid #ddd';
-                featuredLocationDiv.style.backgroundColor = '#f9f9f9';
                 
-                var content = `<p style="color: black;"><strong>Featured Location: ${location.name}</strong>, ${location.description}, ${location.additionalInfo.address}</p>`;
+                var content = `<p><strong>Featured Location: ${location.name}</strong>, ${location.description}, ${location.additionalInfo.address}</p>`;
                 featuredLocationDiv.innerHTML = content;
                 
                 document.getElementById('header').insertBefore(featuredLocationDiv, document.getElementById('title'));
@@ -366,7 +513,7 @@
                 });
 
                 if (location.description || location.additionalInfo) {
-                    let infoContent = `<p><strong>${location.name}</strong><br>`;
+                    let infoContent = `<div class="info-window"><p><strong>${location.name}</strong><br>`;
                     
                     if (location.description) {
                         infoContent += `${location.description}<br>`;
@@ -377,9 +524,9 @@
                         const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${location.coords.lat},${location.coords.lng}`;
                         infoContent += `Address: <a href="${googleMapsUrl}" target="_blank">${address}</a><br>`;
                         infoContent += `Phone: <a href="tel:${phone}">${phone}</a><br>`;
-                        infoContent += `Website: <a href="http://${website}" target="_blank">${website}</a><br>`;
+                        infoContent += `Website: <a href="http://${website}" target="_blank" rel="noopener">${website}</a><br>`;
                         infoContent += `Patio:${patio} Group Size:${group} Full Meal:${fullmeal} Rack:${rack}`;
-                        infoContent += `</p>`;
+                        infoContent += `</p></div>`;
                     }
 
                     //var infoWindow = new google.maps.InfoWindow({
