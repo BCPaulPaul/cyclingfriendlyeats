@@ -271,7 +271,28 @@
             color: var(--ink);
             line-height: 1.5;
             font-size: 14px;
-            max-width: 240px;
+            max-width: 260px;
+            word-break: break-word;
+        }
+
+        .info-window .info-title {
+            font-family: "Fraunces", "Georgia", serif;
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+
+        .info-window .info-desc {
+            color: var(--ink-muted);
+            margin-bottom: 8px;
+        }
+
+        .info-window p {
+            margin: 0 0 6px;
+        }
+
+        .info-window .label {
+            font-weight: 600;
+            color: var(--ink-muted);
         }
 
         .info-window strong {
@@ -285,6 +306,42 @@
 
         .info-window a:hover {
             text-decoration: underline;
+        }
+
+        .gm-style .gm-style-iw-c {
+            padding: 0 !important;
+            border-radius: 18px !important;
+            box-shadow: 0 18px 32px rgba(8, 15, 25, 0.35) !important;
+        }
+
+        .gm-style .gm-style-iw-d {
+            overflow: auto !important;
+            max-height: 50vh !important;
+        }
+
+        .gm-style .gm-style-iw-tc::after {
+            background: #ffffff;
+        }
+
+        .gm-style .gm-ui-hover-effect {
+            top: 8px !important;
+            right: 8px !important;
+            width: 32px !important;
+            height: 32px !important;
+            border-radius: 50% !important;
+            background: rgba(255, 255, 255, 0.92) !important;
+            box-shadow: 0 10px 18px rgba(9, 17, 29, 0.25) !important;
+        }
+
+        @media (max-width: 600px) {
+            .info-window {
+                font-size: 13px;
+                max-width: 70vw;
+            }
+
+            .gm-style .gm-style-iw-d {
+                max-height: 40vh !important;
+            }
         }
 
         @keyframes popIn {
