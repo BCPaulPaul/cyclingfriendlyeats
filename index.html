@@ -570,21 +570,41 @@
                 });
 
                 if (location.description || location.additionalInfo) {
-                    let infoContent = `<div class="info-window"><p><strong>${location.name}</strong><br>`;
+                    let infoContent = `<div class="info-window"><div class="info-title">${location.name}</div>`;
                     
                     if (location.description) {
-                        infoContent += `${location.description}<br>`;
+                        infoContent += `<div class="info-desc">${location.description}</div>`;
                     }
                     
                     if (location.additionalInfo) {
                         const { address, phone, website, patio, group, fullmeal, rack } = location.additionalInfo;
                         const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${location.coords.lat},${location.coords.lng}`;
-                        infoContent += `Address: <a href="${googleMapsUrl}" target="_blank">${address}</a><br>`;
-                        infoContent += `Phone: <a href="tel:${phone}">${phone}</a><br>`;
-                        infoContent += `Website: <a href="http://${website}" target="_blank" rel="noopener">${website}</a><br>`;
-                        infoContent += `Patio:${patio} Group Size:${group} Full Meal:${fullmeal} Rack:${rack}`;
-                        infoContent += `</p></div>`;
+                        const websiteUrl = website ? (website.startsWith('http') ? website : `http://${website}`) : "";
+                        const detailBits = [];
+
+                        if (address) {
+                            infoContent += `<p><span class="label">Address:</span> <a href="${googleMapsUrl}" target="_blank" rel="noopener">${address}</a></p>`;
+                        }
+
+                        if (phone) {
+                            infoContent += `<p><span class="label">Phone:</span> <a href="tel:${phone}">${phone}</a></p>`;
+                        }
+
+                        if (website) {
+                            infoContent += `<p><span class="label">Website:</span> <a href="${websiteUrl}" target="_blank" rel="noopener">${website}</a></p>`;
+                        }
+
+                        if (patio) detailBits.push(`Patio: ${patio}`);
+                        if (group) detailBits.push(`Group: ${group}`);
+                        if (fullmeal) detailBits.push(`Full meal: ${fullmeal}`);
+                        if (rack) detailBits.push(`Rack: ${rack}`);
+
+                        if (detailBits.length) {
+                            infoContent += `<p><span class="label">Details:</span> ${detailBits.join(' · ')}</p>`;
+                        }
                     }
+
+                    infoContent += `</div>`;
 
                     //var infoWindow = new google.maps.InfoWindow({
                     //    content: infoContent
